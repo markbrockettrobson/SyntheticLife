@@ -13,4 +13,4 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Build the Docker image
-      run: docker build . --file ContinuousIntegration/Test.dockerfile --tag SyntheticLifeTest:$(date +%s)
+      run: docker build . --file ContinuousIntegration/Test.dockerfile --tag synthetic_life_test:$(date +%s)
