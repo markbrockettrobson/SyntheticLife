@@ -133,6 +133,23 @@ public class EntityMapTests
         Assert.That(mapEntities, Is.Empty);
     }
 
+    [TestCase(new[] { 0, 1, 2, 3, 4, 5, 6, 7 }, new[] { 4, 5, 6, 7 })]
+    [TestCase(new[] { 0, 2, 3, 6, 8 }, new[] { 6, 8 })]
+    public void QueryMixed(int[] entityIndexes, int[] entityIndexesInside)
+    {
+        // Arrange
+        var map = new EntityMap();
+        foreach (var index in entityIndexes)
+        {
+            map.AddEntity(TestEntities[index].Object);
+        }
+
+        // Act
+        var mapEntities = map.Query(new Envelope(4, 10, 4, 10));
+        // Assert
+        Assert.That(mapEntities, Is.EquivalentTo(entityIndexesInside.Select(index => TestEntities[index].Object)));
+    }
+
     [TestCase(new[] { 0, 1, 2, 3 }, new[] { 0, 2, 3 })]
     [TestCase(new[] { 0, 2, 3, 6, 8 }, new[] { 6, 2, 3 })]
     public void Delete(int[] entityIndexes, int[] insideEntityIndexes)
