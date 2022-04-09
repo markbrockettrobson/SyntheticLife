@@ -8,6 +8,7 @@ using SyntheticLife.Core.Map;
 
 namespace SyntheticLife.Core.Test
 {
+    [TestFixture]
     public class EntityMapTests
     {
         public List<Mock<IMapEntity>> TestEntities { get; set; } = new ();
