@@ -4,7 +4,7 @@ namespace SyntheticLife.Core.Map
 {
     public class MapEntityBase : IMapEntity
     {
-        private Envelope location = new Envelope();
+        private Envelope location = new ();
         public Envelope Location
         {
             get => location;
