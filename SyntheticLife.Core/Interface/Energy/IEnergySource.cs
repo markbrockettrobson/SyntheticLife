@@ -4,6 +4,6 @@ namespace SyntheticLife.Core.Energy
 {
     public interface IEnergySource : IMapEntity
     {
-        public int Energy { get; set; }
+        public double Energy { get; set; }
     }
 }

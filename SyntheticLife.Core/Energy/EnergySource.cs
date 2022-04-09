@@ -5,8 +5,8 @@ namespace SyntheticLife.Core.Energy
 {
     public class EnergySource : MapEntityBase, IEnergySource
     {
-        public int Energy { get; set; }
-        public EnergySource(Envelope location, int energy) : base(location)
+        public double Energy { get; set; }
+        public EnergySource(Envelope location, double energy) : base(location)
         {
             Energy = energy;
         }
