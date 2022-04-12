@@ -8,7 +8,7 @@ namespace SyntheticLife.Core.Test
     [TestFixture]
     public class GeometriesExtensionMethodsTests
     {
-        public static double Epsilon = 0.001;
+        private static readonly double Epsilon = 0.001;
 
         [TestCase(0, 0, 0, 10, 10, 0)]
         [TestCase(4, 0, 0.5, 20, 4, 20)]
