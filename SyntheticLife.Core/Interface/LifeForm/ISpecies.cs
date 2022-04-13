@@ -3,6 +3,6 @@
     public interface ISpecies
     {
         public double MovementSpeed { get; }
-        public double MovementEnergyCoast(double distance);
+        public double HarvestRate { get; }
     }
 }
