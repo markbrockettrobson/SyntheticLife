@@ -6,11 +6,13 @@ namespace SyntheticLife.Core.Map
     {
         public Envelope OldLocation { get; }
         public Envelope NewLocation { get; }
+        public double EnergyCost { get; }
 
         public MovementOrder(Envelope oldLocation, Envelope newLocation)
         {
             OldLocation = oldLocation;
             NewLocation = newLocation;
+            EnergyCost = oldLocation.Centre.Distance(newLocation.Centre);
         }
     }
 }
