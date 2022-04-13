@@ -51,7 +51,13 @@ namespace SyntheticLife.Core.Test
             MockMap = new ();
             MockMap
                 .Setup(map => map.Query(It.IsAny<Envelope>()))
-                .Returns(new List<IMapEntity>() { MockEnergySourceTwo.Object, MockEntityOne.Object, MockEntityTwo.Object, MockEnergySourceOne.Object });
+                .Returns(new List<IMapEntity>()
+                {
+                    MockEnergySourceTwo.Object,
+                    MockEntityOne.Object,
+                    MockEntityTwo.Object,
+                    MockEnergySourceOne.Object
+                });
 
             MockRandom = new Mock<Random>();
             MockRandom.Setup(random => random.NextDouble()).Returns(0.5);
