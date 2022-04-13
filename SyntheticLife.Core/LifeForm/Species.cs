@@ -6,7 +6,7 @@ namespace SyntheticLife.Core.LifeForm
 {
     public class Species : MapEntityBase, ISpecies
     {
-        public double MovementSpeed { get; private set; }
+        public double MovementSpeed { get; }
         public double HarvestRate { get; }
 
         public Species(Envelope location, double movementSpeed, double harvestRate) : base(location)
