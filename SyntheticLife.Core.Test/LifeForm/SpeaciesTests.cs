@@ -19,7 +19,7 @@ namespace SyntheticLife.Core.LifeForm.Test
         public void MovementSpeedSet()
         {
             // Arrange
-            var species = new Species(Location, 40.4, 10);
+            var species = new Species(Location, 40.4, 10, 300);
             // Act
             var movementSpeed = species.MovementSpeed;
             // Assert
@@ -30,7 +30,7 @@ namespace SyntheticLife.Core.LifeForm.Test
         public void HarvestRateSet()
         {
             // Arrange
-            var species = new Species(Location, 40.4, 1.2093);
+            var species = new Species(Location, 40.4, 1.2093, 300);
             // Act
             var harvestRate = species.HarvestRate;
             // Assert
@@ -38,21 +38,41 @@ namespace SyntheticLife.Core.LifeForm.Test
         }
 
         [Test]
-        public void NegativeMovementSpeedSet()
+        public void MinimumOffspringCostSet()
         {
             // Arrange
+            var species = new Species(Location, 40.4, 1.2093, 123.456);
             // Act
+            var minimumOffspringCost = species.MinimumOffspringCost;
             // Assert
-            Assert.Throws<ArgumentException>(() => new Species(Location, -40.4, 10));
+            Assert.That(minimumOffspringCost, Is.EqualTo(123.456));
         }
 
         [Test]
-        public void NegativeHarvestRateSet()
+        public void NegativeMovementSpeed()
         {
             // Arrange
             // Act
             // Assert
-            Assert.Throws<ArgumentException>(() => new Species(Location, 40.4, -10));
+            Assert.Throws<ArgumentException>(() => new Species(Location, -40.4, 10, 300));
+        }
+
+        [Test]
+        public void NegativeHarvestRate()
+        {
+            // Arrange
+            // Act
+            // Assert
+            Assert.Throws<ArgumentException>(() => new Species(Location, 40.4, -10, 300));
+        }
+
+        [Test]
+        public void NegativeMinimumOffspringCost()
+        {
+            // Arrange
+            // Act
+            // Assert
+            Assert.Throws<ArgumentException>(() => new Species(Location, 40.4, 10, -300));
         }
     }
 }
