@@ -120,10 +120,11 @@ namespace SyntheticLife.Core.LifeForm.Test
                 MockCreature.Object,
                 MockMap.Object);
 
-            var energyConsumptionOrder = energyConsumptionOrders.First();
             // Assert
             MockMap.Verify(map => map.Query(Location), Times.Once);
             Assert.That(energyConsumptionOrders, Has.Count.EqualTo(1));
+
+            var energyConsumptionOrder = energyConsumptionOrders.First();
             Assert.That(energyConsumptionOrder.ConsumingEntity, Is.EqualTo(MockCreature.Object));
             Assert.That(energyConsumptionOrder.ConsumedEntity, Is.EqualTo(MockEnergySourceOne.Object));
             Assert.That(energyConsumptionOrder.Energy, Is.EqualTo(100));
@@ -150,10 +151,11 @@ namespace SyntheticLife.Core.LifeForm.Test
                 MockCreature.Object,
                 MockMap.Object);
 
-            var energyConsumptionOrder = energyConsumptionOrders.First();
             // Assert
             MockMap.Verify(map => map.Query(Location), Times.Once);
             Assert.That(energyConsumptionOrders, Has.Count.EqualTo(1));
+
+            var energyConsumptionOrder = energyConsumptionOrders.First();
             Assert.That(energyConsumptionOrder.ConsumingEntity, Is.EqualTo(MockCreature.Object));
             Assert.That(energyConsumptionOrder.ConsumedEntity, Is.EqualTo(MockEnergySourceOne.Object));
             Assert.That(energyConsumptionOrder.Energy, Is.EqualTo(100));
@@ -179,10 +181,11 @@ namespace SyntheticLife.Core.LifeForm.Test
                 MockCreature.Object,
                 MockMap.Object);
 
-            var energyConsumptionOrder = energyConsumptionOrders.First();
             // Assert
             MockMap.Verify(map => map.Query(Location), Times.Once);
             Assert.That(energyConsumptionOrders, Has.Count.EqualTo(1));
+
+            var energyConsumptionOrder = energyConsumptionOrders.First();
             Assert.That(energyConsumptionOrder.ConsumingEntity, Is.EqualTo(MockCreature.Object));
             Assert.That(energyConsumptionOrder.ConsumedEntity, Is.EqualTo(MockEnergySourceTwo.Object));
             Assert.That(energyConsumptionOrder.Energy, Is.EqualTo(30));
@@ -210,10 +213,11 @@ namespace SyntheticLife.Core.LifeForm.Test
                 MockCreature.Object,
                 MockMap.Object);
 
-            var energyConsumptionOrder = energyConsumptionOrders.First();
             // Assert
             MockMap.Verify(map => map.Query(Location), Times.Once);
             Assert.That(energyConsumptionOrders, Has.Count.EqualTo(1));
+
+            var energyConsumptionOrder = energyConsumptionOrders.First();
             Assert.That(energyConsumptionOrder.ConsumingEntity, Is.EqualTo(MockCreature.Object));
             Assert.That(energyConsumptionOrder.ConsumedEntity, Is.EqualTo(MockEnergySourceOne.Object));
             Assert.That(energyConsumptionOrder.Energy, Is.EqualTo(50));
