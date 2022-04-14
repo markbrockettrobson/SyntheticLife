@@ -4,5 +4,6 @@
     {
         public double MovementSpeed { get; }
         public double HarvestRate { get; }
+        public double MinimumOffspringCost { get; }
     }
 }

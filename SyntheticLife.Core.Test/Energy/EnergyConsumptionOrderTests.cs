@@ -1,10 +1,9 @@
 ﻿using System;
 using Moq;
 using NUnit.Framework;
-using SyntheticLife.Core.Energy;
 using SyntheticLife.Core.LifeForm;
 
-namespace SyntheticLife.Core.Test
+namespace SyntheticLife.Core.Energy.Test
 {
     [TestFixture]
     public class EnergyConsumptionOrderTests

@@ -4,10 +4,9 @@ using Moq;
 using NetTopologySuite.Geometries;
 using NUnit.Framework;
 using SyntheticLife.Core.Energy;
-using SyntheticLife.Core.LifeForm;
 using SyntheticLife.Core.Map;
 
-namespace SyntheticLife.Core.Test
+namespace SyntheticLife.Core.LifeForm.Test
 {
     [TestFixture]
     public class MoveToClosestEnergySourceBehaviourEngineTests

@@ -1,9 +1,8 @@
 using Moq;
 using NetTopologySuite.Geometries;
 using NUnit.Framework;
-using SyntheticLife.Core.LifeForm;
 
-namespace SyntheticLife.Core.Test
+namespace SyntheticLife.Core.LifeForm.Test
 {
     [TestFixture]
     public class CreatureTests
