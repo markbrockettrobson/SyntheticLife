@@ -2,15 +2,15 @@
 using Moq;
 using NUnit.Framework;
 using SyntheticLife.Core.Energy;
-using SyntheticLife.Core.Map;
+using SyntheticLife.Core.LifeForm;
 
 namespace SyntheticLife.Core.Test
 {
     [TestFixture]
     public class EnergyConsumptionOrderTests
     {
-        public Mock<IMapEntity> MockConsumingEntity = new ();
-        public Mock<IMapEntity> MockConsumedEntity = new ();
+        public Mock<ICreature> MockConsumingEntity = new ();
+        public Mock<IEnergySource> MockConsumedEntity = new ();
 
         [SetUp]
         public void SetUp()

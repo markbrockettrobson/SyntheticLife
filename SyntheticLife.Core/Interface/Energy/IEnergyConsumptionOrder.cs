@@ -1,11 +1,11 @@
-﻿using SyntheticLife.Core.Map;
+﻿using SyntheticLife.Core.LifeForm;
 
 namespace SyntheticLife.Core.Energy
 {
     public interface IEnergyConsumptionOrder
     {
-        public IMapEntity ConsumingEntity { get; }
-        public IMapEntity ConsumedEntity { get; }
+        public ICreature ConsumingEntity { get; }
+        public IEnergySource ConsumedEntity { get; }
         public double Energy { get; }
     }
 }

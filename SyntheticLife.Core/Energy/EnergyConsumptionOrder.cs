@@ -1,17 +1,17 @@
 ﻿using Ardalis.GuardClauses;
-using SyntheticLife.Core.Map;
+using SyntheticLife.Core.LifeForm;
 
 namespace SyntheticLife.Core.Energy
 {
     public class EnergyConsumptionOrder : IEnergyConsumptionOrder
     {
-        public IMapEntity ConsumingEntity { get; }
-        public IMapEntity ConsumedEntity { get; }
+        public ICreature ConsumingEntity { get; }
+        public IEnergySource ConsumedEntity { get; }
         public double Energy { get; }
 
         public EnergyConsumptionOrder(
-            IMapEntity consumingEntity,
-            IMapEntity consumedEntity,
+            ICreature consumingEntity,
+            IEnergySource consumedEntity,
             double energy)
         {
             Guard.Against.Negative(energy);
