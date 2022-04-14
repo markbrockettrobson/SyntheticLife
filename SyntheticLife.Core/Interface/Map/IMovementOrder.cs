@@ -6,5 +6,6 @@ namespace SyntheticLife.Core.Map
     {
         public Envelope OldLocation { get; }
         public Envelope NewLocation { get; }
+        public double EnergyCost { get; }
     }
 }

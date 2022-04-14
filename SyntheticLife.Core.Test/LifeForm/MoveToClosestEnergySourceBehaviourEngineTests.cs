@@ -44,14 +44,20 @@ namespace SyntheticLife.Core.Test
             MockEnergySourceTwo = new ();
             MockEnergySourceTwo.Setup(energySource => energySource.Location).Returns(LocationThree);
             MockEntityOne = new ();
-            MockEntityOne.Setup(energySource => energySource.Location).Returns(LocationTwo);
+            MockEntityOne.Setup(entity => entity.Location).Returns(LocationTwo);
             MockEntityTwo = new ();
-            MockEntityTwo.Setup(energySource => energySource.Location).Returns(LocationThree);
+            MockEntityTwo.Setup(entity => entity.Location).Returns(LocationThree);
 
             MockMap = new ();
             MockMap
                 .Setup(map => map.Query(It.IsAny<Envelope>()))
-                .Returns(new List<IMapEntity>() { MockEnergySourceTwo.Object, MockEntityOne.Object, MockEntityTwo.Object, MockEnergySourceOne.Object });
+                .Returns(new List<IMapEntity>()
+                {
+                    MockEnergySourceTwo.Object,
+                    MockEntityOne.Object,
+                    MockEntityTwo.Object,
+                    MockEnergySourceOne.Object
+                });
 
             MockRandom = new Mock<Random>();
             MockRandom.Setup(random => random.NextDouble()).Returns(0.5);

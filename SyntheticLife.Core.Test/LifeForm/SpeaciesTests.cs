@@ -20,38 +20,40 @@ namespace SyntheticLife.Core.Test
         public void MovementSpeedSet()
         {
             // Arrange
-            var species = new Species(Location, 40.4);
+            var species = new Species(Location, 40.4, 10);
             // Act
             var movementSpeed = species.MovementSpeed;
             // Assert
             Assert.That(movementSpeed, Is.EqualTo(40.4));
         }
 
-        [TestCase(-1)]
-        [TestCase(-90213.23)]
-        [TestCase(-0.1)]
-        public void MovementEnergyCoastNegative(double distance)
+        [Test]
+        public void HarvestRateSet()
         {
             // Arrange
-            var species = new Species(Location, 100);
+            var species = new Species(Location, 40.4, 1.2093);
             // Act
+            var harvestRate = species.HarvestRate;
             // Assert
-            Assert.Throws<ArgumentException>(() => species.MovementEnergyCoast(distance));
+            Assert.That(harvestRate, Is.EqualTo(1.2093));
         }
 
-        [TestCase(-0, 0)]
-        [TestCase(1, 0.1)]
-        [TestCase(2, 0.4)]
-        [TestCase(10, 10)]
-        [TestCase(20, 40)]
-        [TestCase(20.1, 40.401)]
-        public void MovementEnergyCoastNegative(double distance, double expectedCost)
+        [Test]
+        public void NegativeMovementSpeedSet()
         {
             // Arrange
-            var species = new Species(Location, 100);
             // Act
             // Assert
-            Assert.That(species.MovementEnergyCoast(distance), Is.InRange(expectedCost - 0.1, expectedCost + 0.1));
+            Assert.Throws<ArgumentException>(() => new Species(Location, -40.4, 10));
+        }
+
+        [Test]
+        public void NegativeHarvestRateSet()
+        {
+            // Arrange
+            // Act
+            // Assert
+            Assert.Throws<ArgumentException>(() => new Species(Location, 40.4, -10));
         }
     }
 }
