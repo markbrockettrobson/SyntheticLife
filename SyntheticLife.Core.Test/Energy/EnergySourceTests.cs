@@ -1,8 +1,7 @@
 using NetTopologySuite.Geometries;
 using NUnit.Framework;
-using SyntheticLife.Core.Energy;
 
-namespace SyntheticLife.Core.Test
+namespace SyntheticLife.Core.Energy.Test
 {
     [TestFixture]
     public class EnergySourceTests

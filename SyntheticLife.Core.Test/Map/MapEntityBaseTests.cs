@@ -2,9 +2,8 @@ using System;
 using Moq;
 using NetTopologySuite.Geometries;
 using NUnit.Framework;
-using SyntheticLife.Core.Map;
 
-namespace SyntheticLife.Core.Test
+namespace SyntheticLife.Core.Map.Test
 {
     [TestFixture]
     public class MapEntityBaseTests
