@@ -106,6 +106,69 @@ namespace SyntheticLife.Core.Test
             Assert.That(location.MaxY, Is.InRange(y3 - Epsilon + 1, y3 + Epsilon + 1));
         }
 
+        [TestCase(0, 0)]
+        [TestCase(10, 110)]
+        [TestCase(30, -10)]
+        [TestCase(31, -29)]
+        [TestCase(-23, -21)]
+        [TestCase(12, 32)]
+        public void TranslateToInsideEnvelope(double x, double y)
+        {
+            // Arrange
+            var startingEnvelope = new Envelope(x, x + 1, y, y + 1);
+            var boundsEnvelope = new Envelope(30, 32, -22, -20);
+
+            // Act
+            var location = startingEnvelope.TranslateToInsideEnvelope(boundsEnvelope);
+            // Assert
+            Assert.That(location.MinX, Is.InRange(30, 32));
+            Assert.That(location.MaxX, Is.InRange(30, 32));
+            Assert.That(location.MinY, Is.InRange(-22, -20));
+            Assert.That(location.MaxY, Is.InRange(-22, -20));
+        }
+
+        [TestCase(0, 0)]
+        [TestCase(10, 110)]
+        [TestCase(30, -10)]
+        [TestCase(31, -22)]
+        [TestCase(-23, -21)]
+        [TestCase(12, 32)]
+        public void TranslateToAlreadyInsideEnvelope(double x, double y)
+        {
+            // Arrange
+            var startingEnvelope = new Envelope(x, x + 1, y, y + 1);
+            var boundsEnvelope = new Envelope(-1000, 1000, -1000, 1000);
+
+            // Act
+            var location = startingEnvelope.TranslateToInsideEnvelope(boundsEnvelope);
+            // Assert
+            Assert.That(location.MinX, Is.InRange(x - Epsilon, x + Epsilon));
+            Assert.That(location.MaxX, Is.InRange(x + 1 - Epsilon, x + 1 + Epsilon));
+            Assert.That(location.MinY, Is.InRange(y - Epsilon, y + Epsilon));
+            Assert.That(location.MaxY, Is.InRange(y + 1 - Epsilon, y + 1 + Epsilon));
+        }
+
+        [TestCase(0, 0)]
+        [TestCase(10, 110)]
+        [TestCase(30, -10)]
+        [TestCase(31, -22)]
+        [TestCase(-23, -21)]
+        [TestCase(12, 32)]
+        public void TranslateToInsideEnvelopeImpossiblee(double x, double y)
+        {
+            // Arrange
+            var startingEnvelope = new Envelope(x, x + 1, y, y + 1);
+            var boundsEnvelopeOne = new Envelope(30, 30.5, -21, -22);
+            var boundsEnvelopeTwo = new Envelope(30, 31, -21.5, -22);
+
+            // Act
+            // Assert
+            Assert.Throws<InvalidOperationException>(
+                () => startingEnvelope.TranslateToInsideEnvelope(boundsEnvelopeOne));
+            Assert.Throws<InvalidOperationException>(
+                () => startingEnvelope.TranslateToInsideEnvelope(boundsEnvelopeTwo));
+        }
+
         [Test]
         public void TranslateToNegativeDistance()
         {

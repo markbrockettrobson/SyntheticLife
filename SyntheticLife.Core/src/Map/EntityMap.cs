@@ -7,9 +7,11 @@ namespace SyntheticLife.Core.Map
     {
         public IEnumerable<IMapEntity> MapEntities => Tree.QueryAll();
         private Quadtree<IMapEntity> Tree { get; set; }
+        public Envelope Bounds { get; }
 
-        public EntityMap()
+        public EntityMap(Envelope bounds)
         {
+            Bounds = bounds;
             Tree = new Quadtree<IMapEntity>();
         }
 
@@ -24,6 +26,11 @@ namespace SyntheticLife.Core.Map
             if (MapEntities.Contains(entity))
             {
                 throw new InvalidOperationException(string.Format("Entiry {0} already in Map.", entity));
+            }
+
+            if (!Bounds.Contains(location))
+            {
+                throw new InvalidOperationException("Entiry out of bounds.");
             }
 
             Tree.Insert(location, entity);

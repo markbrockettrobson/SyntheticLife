@@ -5,6 +5,7 @@ namespace SyntheticLife.Core.Map
     public interface IEntityMap
     {
         public IEnumerable<IMapEntity> MapEntities { get; }
+        public Envelope Bounds { get; }
 
         public void AddEntity(IMapEntity entity);
         public void RemoveEntity(IMapEntity entity);

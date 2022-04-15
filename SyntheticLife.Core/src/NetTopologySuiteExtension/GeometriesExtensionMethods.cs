@@ -31,6 +31,42 @@ namespace SyntheticLife.Core
             return envelope.TranslateAtAngle(angleToTarget, maxDistance);
         }
 
+        public static Envelope TranslateToInsideEnvelope(this Envelope envelope, Envelope bounds)
+        {
+            var locationInbounds = envelope.Copy();
+            if (bounds.Contains(envelope))
+            {
+                return locationInbounds;
+            }
+
+            if (bounds.MinX > locationInbounds.MinX)
+            {
+                locationInbounds.Translate(bounds.MinX - envelope.MinX, 0);
+            }
+
+            if (bounds.MaxX < locationInbounds.MaxX)
+            {
+                locationInbounds.Translate(bounds.MaxX - envelope.MaxX, 0);
+            }
+
+            if (bounds.MinY > locationInbounds.MinY)
+            {
+                locationInbounds.Translate(0, bounds.MinY - envelope.MinY);
+            }
+
+            if (bounds.MaxY < locationInbounds.MaxY)
+            {
+                locationInbounds.Translate(0, bounds.MaxY - envelope.MaxY);
+            }
+
+            if (!bounds.Contains(locationInbounds))
+            {
+                throw new InvalidOperationException("Unable to translate envelope into bounds.");
+            }
+
+            return locationInbounds;
+        }
+
         public static double RadianAngleTo(this Coordinate coordinate, Coordinate target)
         {
             return new LineSegment(coordinate, target).Angle;
