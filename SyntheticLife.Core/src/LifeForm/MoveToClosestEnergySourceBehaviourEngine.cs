@@ -26,9 +26,10 @@ namespace SyntheticLife.Core.LifeForm
 
             if (closestEntity == null)
             {
+                var randomLocation = creature.Location.TranslateRandomDirection(RandomGenirator, creature.Species.MovementSpeed);
                 return new MovementOrder(
                     creature.Location,
-                    creature.Location.TranslateRandomDirection(RandomGenirator, creature.Species.MovementSpeed));
+                    randomLocation.TranslateToInsideEnvelope(entityMap.Bounds));
             }
 
             return new MovementOrder(

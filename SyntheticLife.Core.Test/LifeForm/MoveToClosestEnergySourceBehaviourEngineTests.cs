@@ -57,6 +57,7 @@ namespace SyntheticLife.Core.LifeForm.Test
                     MockEntityTwo.Object,
                     MockEnergySourceOne.Object
                 });
+            MockMap.Setup(map => map.Bounds).Returns(new Envelope(0, 30, 0, 30));
 
             MockRandom = new Mock<Random>();
             MockRandom.Setup(random => random.NextDouble()).Returns(0.5);
@@ -67,6 +68,7 @@ namespace SyntheticLife.Core.LifeForm.Test
         {
             // Arrange
             var behaviour = new MoveToClosestEnergySourceBehaviourEngine(MockRandom.Object, 0);
+            MockMap.Setup(map => map.Bounds).Returns(new Envelope(-2000, 2000, -2000, 2000));
 
             MockMap
                 .Setup(map => map.Query(It.IsAny<Envelope>()))
@@ -92,6 +94,7 @@ namespace SyntheticLife.Core.LifeForm.Test
         {
             // Arrange
             var behaviour = new MoveToClosestEnergySourceBehaviourEngine(MockRandom.Object, 30);
+            MockMap.Setup(map => map.Bounds).Returns(new Envelope(-2000, 2000, -2000, 2000));
             MockMap
                 .Setup(map => map.Query(It.IsAny<Envelope>()))
                 .Returns(new List<IMapEntity>() { MockEntityOne.Object, MockEntityTwo.Object });
@@ -109,6 +112,57 @@ namespace SyntheticLife.Core.LifeForm.Test
             Assert.That(movementOrder.OldLocation, Is.EqualTo(LocationOne));
             Assert.That(movementOrder.NewLocation.MinX, Is.InRange(-999 - Epsilon, -999 + Epsilon));
             Assert.That(movementOrder.NewLocation.MaxX, Is.InRange(-999 - Epsilon, -999 + Epsilon));
+            Assert.That(movementOrder.NewLocation.MinY, Is.InRange(1 - Epsilon, 1 + Epsilon));
+            Assert.That(movementOrder.NewLocation.MaxY, Is.InRange(1 - Epsilon, 1 + Epsilon));
+        }
+
+        [Test]
+        public void SelectMovementNothingInSearchAreaOutsidebounds()
+        {
+            // Arrange
+            var behaviour = new MoveToClosestEnergySourceBehaviourEngine(MockRandom.Object, 0);
+
+            MockMap
+                .Setup(map => map.Query(It.IsAny<Envelope>()))
+                .Returns(new List<IMapEntity>() { });
+
+            // Act
+            var movementOrder = behaviour.SelectMovement(
+                MockCreature.Object,
+                MockMap.Object);
+
+            // Assert
+            MockMap.Verify(map => map.Query(LocationOne), Times.Once);
+
+            Assert.That(movementOrder.OldLocation, Is.EqualTo(LocationOne));
+            Assert.That(movementOrder.NewLocation.MinX, Is.InRange(0 - Epsilon, 0 + Epsilon));
+            Assert.That(movementOrder.NewLocation.MaxX, Is.InRange(0 - Epsilon, 0 + Epsilon));
+            Assert.That(movementOrder.NewLocation.MinY, Is.InRange(1 - Epsilon, 1 + Epsilon));
+            Assert.That(movementOrder.NewLocation.MaxY, Is.InRange(1 - Epsilon, 1 + Epsilon));
+        }
+
+        [Test]
+        public void SelectMovementNoEnergySourceInSearchAreaOutsidebounds()
+        {
+            // Arrange
+            var behaviour = new MoveToClosestEnergySourceBehaviourEngine(MockRandom.Object, 30);
+            MockMap
+                .Setup(map => map.Query(It.IsAny<Envelope>()))
+                .Returns(new List<IMapEntity>() { MockEntityOne.Object, MockEntityTwo.Object });
+
+            // Act
+            var movementOrder = behaviour.SelectMovement(
+                MockCreature.Object,
+                MockMap.Object);
+
+            var searchArea = LocationOne.Copy();
+            searchArea.ExpandBy(30);
+
+            // Assert
+            MockMap.Verify(map => map.Query(searchArea), Times.Once);
+            Assert.That(movementOrder.OldLocation, Is.EqualTo(LocationOne));
+            Assert.That(movementOrder.NewLocation.MinX, Is.InRange(0 - Epsilon, 1 + Epsilon));
+            Assert.That(movementOrder.NewLocation.MaxX, Is.InRange(0 - Epsilon, 19 + Epsilon));
             Assert.That(movementOrder.NewLocation.MinY, Is.InRange(1 - Epsilon, 1 + Epsilon));
             Assert.That(movementOrder.NewLocation.MaxY, Is.InRange(1 - Epsilon, 1 + Epsilon));
         }
