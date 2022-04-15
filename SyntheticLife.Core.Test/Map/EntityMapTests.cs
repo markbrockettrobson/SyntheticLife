@@ -13,9 +13,12 @@ namespace SyntheticLife.Core.Map.Test
         public List<Mock<IMapEntity>> TestEntities { get; set; } = new ();
         public Action<IMapEntity, Envelope>? LastOnUpdateLocationAction { get; set; } = null;
 
+        public Envelope Bounds = new Envelope(-1000, 1000, -1000, 1000);
+
         [SetUp]
         public void SetUp()
         {
+            TestEntities = new ();
             for (int index = 0; index < 10; index++)
             {
                 Mock<IMapEntity> entity = new ();
@@ -34,11 +37,21 @@ namespace SyntheticLife.Core.Map.Test
         public void MapEntitiesEmpty()
         {
             // Arrange
-            var map = new EntityMap();
+            var map = new EntityMap(Bounds);
             // Act
             var mapEntities = map.MapEntities;
             // Assert
             Assert.That(mapEntities, Is.Empty);
+        }
+
+        [Test]
+        public void BoundsSet()
+        {
+            // Arrange
+            var map = new EntityMap(Bounds);
+            // Act
+            // Assert
+            Assert.That(map.Bounds, Is.EqualTo(Bounds));
         }
 
         [TestCase(new[] { 0 })]
@@ -48,7 +61,7 @@ namespace SyntheticLife.Core.Map.Test
         public void MapEntities(int[] entityIndexes)
         {
             // Arrange
-            var map = new EntityMap();
+            var map = new EntityMap(Bounds);
             foreach (var index in entityIndexes)
             {
                 map.AddEntity(TestEntities[index].Object);
@@ -64,7 +77,7 @@ namespace SyntheticLife.Core.Map.Test
         public void AddExceptionOnRepeat()
         {
             // Arrange
-            var map = new EntityMap();
+            var map = new EntityMap(Bounds);
             map.AddEntity(TestEntities[0].Object);
             // Act
             // Assert
@@ -72,10 +85,35 @@ namespace SyntheticLife.Core.Map.Test
         }
 
         [Test]
+        public void AddExceptionOnOutsideBounds()
+        {
+            // Arrange
+            var map = new EntityMap(Bounds);
+            TestEntities[0]
+                .Setup(entity => entity.Location)
+                .Returns(new Envelope(-1012, 0, 0, 0));
+            TestEntities[1]
+                .Setup(entity => entity.Location)
+                .Returns(new Envelope(0, 1001, 0, 0));
+            TestEntities[2]
+                .Setup(entity => entity.Location)
+                .Returns(new Envelope(0, 0, -1002, 0));
+            TestEntities[3]
+                .Setup(entity => entity.Location)
+                .Returns(new Envelope(0, 0, 0, 1002));
+            // Act
+            // Assert
+            Assert.Throws<InvalidOperationException>(() => map.AddEntity(TestEntities[0].Object));
+            Assert.Throws<InvalidOperationException>(() => map.AddEntity(TestEntities[1].Object));
+            Assert.Throws<InvalidOperationException>(() => map.AddEntity(TestEntities[2].Object));
+            Assert.Throws<InvalidOperationException>(() => map.AddEntity(TestEntities[3].Object));
+        }
+
+        [Test]
         public void AddEntityOnEntityLocationUpdateSet()
         {
             // Arrange
-            var map = new EntityMap();
+            var map = new EntityMap(Bounds);
             map.AddEntity(TestEntities[0].Object);
             // Act
             // Assert
@@ -88,7 +126,7 @@ namespace SyntheticLife.Core.Map.Test
         public void QueryEmpty()
         {
             // Arrange
-            var map = new EntityMap();
+            var map = new EntityMap(Bounds);
             // Act
             var mapEntities = map.Query(new Envelope(-10, 10, -10, 10));
             // Assert
@@ -102,7 +140,7 @@ namespace SyntheticLife.Core.Map.Test
         public void QueryAllInside(int[] entityIndexes)
         {
             // Arrange
-            var map = new EntityMap();
+            var map = new EntityMap(Bounds);
             foreach (var index in entityIndexes)
             {
                 map.AddEntity(TestEntities[index].Object);
@@ -121,7 +159,7 @@ namespace SyntheticLife.Core.Map.Test
         public void QueryAllOutside(int[] entityIndexes)
         {
             // Arrange
-            var map = new EntityMap();
+            var map = new EntityMap(Bounds);
             foreach (var index in entityIndexes)
             {
                 map.AddEntity(TestEntities[index].Object);
@@ -138,7 +176,7 @@ namespace SyntheticLife.Core.Map.Test
         public void QueryMixed(int[] entityIndexes, int[] entityIndexesInside)
         {
             // Arrange
-            var map = new EntityMap();
+            var map = new EntityMap(Bounds);
             foreach (var index in entityIndexes)
             {
                 map.AddEntity(TestEntities[index].Object);
@@ -155,7 +193,7 @@ namespace SyntheticLife.Core.Map.Test
         public void Delete(int[] entityIndexes, int[] insideEntityIndexes)
         {
             // Arrange
-            var map = new EntityMap();
+            var map = new EntityMap(Bounds);
             foreach (var index in entityIndexes)
             {
                 map.AddEntity(TestEntities[index].Object);
@@ -176,7 +214,7 @@ namespace SyntheticLife.Core.Map.Test
         public void DeleteExceptionOnRepeat()
         {
             // Arrange
-            var map = new EntityMap();
+            var map = new EntityMap(Bounds);
             // Act
             // Assert
             Assert.Throws<InvalidOperationException>(() => map.RemoveEntity(TestEntities[0].Object));
@@ -186,7 +224,7 @@ namespace SyntheticLife.Core.Map.Test
         public void EntityLocationUpdate()
         {
             // Arrange
-            var map = new EntityMap();
+            var map = new EntityMap(Bounds);
             map.AddEntity(TestEntities[0].Object);
             // Act
             if (LastOnUpdateLocationAction == null)
