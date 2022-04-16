@@ -73,7 +73,7 @@ namespace SyntheticLife.Core
 
             if (envelope.MinX + size > envelope.MaxX || envelope.MinY + size > envelope.MaxY)
             {
-                throw new InvalidOperationException("Size larger then Envelope.");
+                throw new InvalidOperationException("Size larger than Envelope.");
             }
 
             var randomX = random.NextDouble() * ((envelope.MaxX - size) - envelope.MinX) + envelope.MinX;
