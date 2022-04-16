@@ -67,6 +67,21 @@ namespace SyntheticLife.Core
             return locationInbounds;
         }
 
+        public static Envelope RandomEnvelopeInside(this Envelope envelope, Random random, double size)
+        {
+            Guard.Against.Negative(size);
+
+            if (envelope.MinX + size > envelope.MaxX || envelope.MinY + size > envelope.MaxY)
+            {
+                throw new InvalidOperationException("Size larger than Envelope.");
+            }
+
+            var randomX = random.NextDouble() * ((envelope.MaxX - size) - envelope.MinX) + envelope.MinX;
+            var randomY = random.NextDouble() * ((envelope.MaxY - size) - envelope.MinY) + envelope.MinY;
+
+            return new Envelope(randomX, randomX + size, randomY, randomY + size);
+        }
+
         public static double RadianAngleTo(this Coordinate coordinate, Coordinate target)
         {
             return new LineSegment(coordinate, target).Angle;

@@ -1,16 +1,15 @@
 ﻿using Ardalis.GuardClauses;
 using NetTopologySuite.Geometries;
-using SyntheticLife.Core.Map;
 
 namespace SyntheticLife.Core.LifeForm
 {
-    public class Species : MapEntityBase, ISpecies
+    public class Species : ISpecies
     {
         public double MovementSpeed { get; }
         public double HarvestRate { get; }
         public double MinimumOffspringCost { get; }
 
-        public Species(Envelope location, double movementSpeed, double harvestRate, double minimumOffspringCost) : base(location)
+        public Species(double movementSpeed, double harvestRate, double minimumOffspringCost)
         {
             Guard.Against.Negative(movementSpeed);
             Guard.Against.Negative(harvestRate);
