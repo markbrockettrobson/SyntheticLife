@@ -1,5 +1,4 @@
 using System;
-using NetTopologySuite.Geometries;
 using NUnit.Framework;
 
 namespace SyntheticLife.Core.LifeForm.Test
@@ -7,19 +6,11 @@ namespace SyntheticLife.Core.LifeForm.Test
     [TestFixture]
     public class SpeciesTests
     {
-        public Envelope Location = new ();
-
-        [SetUp]
-        public void SetUp()
-        {
-            Location = new Envelope(1, 1, 1, 1);
-        }
-
         [Test]
         public void MovementSpeedSet()
         {
             // Arrange
-            var species = new Species(Location, 40.4, 10, 300);
+            var species = new Species(40.4, 10, 300);
             // Act
             var movementSpeed = species.MovementSpeed;
             // Assert
@@ -30,7 +21,7 @@ namespace SyntheticLife.Core.LifeForm.Test
         public void HarvestRateSet()
         {
             // Arrange
-            var species = new Species(Location, 40.4, 1.2093, 300);
+            var species = new Species(40.4, 1.2093, 300);
             // Act
             var harvestRate = species.HarvestRate;
             // Assert
@@ -41,7 +32,7 @@ namespace SyntheticLife.Core.LifeForm.Test
         public void MinimumOffspringCostSet()
         {
             // Arrange
-            var species = new Species(Location, 40.4, 1.2093, 123.456);
+            var species = new Species(40.4, 1.2093, 123.456);
             // Act
             var minimumOffspringCost = species.MinimumOffspringCost;
             // Assert
@@ -54,7 +45,7 @@ namespace SyntheticLife.Core.LifeForm.Test
             // Arrange
             // Act
             // Assert
-            Assert.Throws<ArgumentException>(() => new Species(Location, -40.4, 10, 300));
+            Assert.Throws<ArgumentException>(() => new Species(-40.4, 10, 300));
         }
 
         [Test]
@@ -63,7 +54,7 @@ namespace SyntheticLife.Core.LifeForm.Test
             // Arrange
             // Act
             // Assert
-            Assert.Throws<ArgumentException>(() => new Species(Location, 40.4, -10, 300));
+            Assert.Throws<ArgumentException>(() => new Species(40.4, -10, 300));
         }
 
         [Test]
@@ -72,7 +63,7 @@ namespace SyntheticLife.Core.LifeForm.Test
             // Arrange
             // Act
             // Assert
-            Assert.Throws<ArgumentException>(() => new Species(Location, 40.4, 10, -300));
+            Assert.Throws<ArgumentException>(() => new Species(40.4, 10, -300));
         }
     }
 }
