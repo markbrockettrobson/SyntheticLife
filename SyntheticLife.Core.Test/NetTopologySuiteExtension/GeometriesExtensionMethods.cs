@@ -169,6 +169,53 @@ namespace SyntheticLife.Core.Test
                 () => startingEnvelope.TranslateToInsideEnvelope(boundsEnvelopeTwo));
         }
 
+        [TestCase(2, 1, 1)]
+        [TestCase(1, 1, 0)]
+        [TestCase(300, 200, 500)]
+        [TestCase(200, 500, 199)]
+        [TestCase(3, 20, 2)]
+        public void RandomEnvelopeInsideImpossiblee(int size, int envelopeX, int envelopeY)
+        {
+            // Arrange
+            var boundsEnvelope = new Envelope(0, envelopeX, 0, envelopeY);
+
+            // Act
+            // Assert
+            Assert.Throws<InvalidOperationException>(
+                () => boundsEnvelope.RandomEnvelopeInside(new Random(), size));
+        }
+
+        [TestCase(0, 0, 2)]
+        [TestCase(0, 1, 2)]
+        [TestCase(1, 1, 1)]
+        [TestCase(4, 5, 4)]
+        [TestCase(300, 500, 500)]
+        [TestCase(2, 500, 300)]
+        [TestCase(3, 20, 5)]
+        public void RandomEnvelopeInside(int size, int envelopeX, int envelopeY)
+        {
+            // Arrange
+            var boundsEnvelope = new Envelope(0, envelopeX, 0, envelopeY);
+
+            // Act
+            // Assert
+            var envelope = boundsEnvelope.RandomEnvelopeInside(new Random(), size);
+
+            Assert.IsTrue(boundsEnvelope.Contains(envelope));
+        }
+
+        [Test]
+        public void RandomEnvelopeInsideSizeNegative()
+        {
+            // Arrange
+            var boundsEnvelope = new Envelope(0, 100, 0, 100);
+
+            // Act
+            // Assert
+            Assert.Throws<ArgumentException>(
+                () => boundsEnvelope.RandomEnvelopeInside(new Random(), -32));
+        }
+
         [Test]
         public void TranslateToNegativeDistance()
         {
