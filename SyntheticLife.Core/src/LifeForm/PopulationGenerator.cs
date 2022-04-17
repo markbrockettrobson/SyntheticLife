@@ -1,6 +1,5 @@
 ﻿using Ardalis.GuardClauses;
 using NetTopologySuite.Geometries;
-using SyntheticLife.Core.Interface.LifeForm;
 
 namespace SyntheticLife.Core.LifeForm
 {
