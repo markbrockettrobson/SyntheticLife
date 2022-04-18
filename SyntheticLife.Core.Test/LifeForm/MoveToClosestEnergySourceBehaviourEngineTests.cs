@@ -82,7 +82,7 @@ namespace SyntheticLife.Core.LifeForm.Test
             // Assert
             MockMap.Verify(map => map.Query(LocationOne), Times.Once);
 
-            Assert.That(movementOrder.OldLocation, Is.EqualTo(LocationOne));
+            Assert.That(movementOrder.Creature, Is.EqualTo(MockCreature.Object));
             Assert.That(movementOrder.NewLocation.MinX, Is.InRange(-999 - Epsilon, -999 + Epsilon));
             Assert.That(movementOrder.NewLocation.MaxX, Is.InRange(-999 - Epsilon, -999 + Epsilon));
             Assert.That(movementOrder.NewLocation.MinY, Is.InRange(1 - Epsilon, 1 + Epsilon));
@@ -109,7 +109,7 @@ namespace SyntheticLife.Core.LifeForm.Test
 
             // Assert
             MockMap.Verify(map => map.Query(searchArea), Times.Once);
-            Assert.That(movementOrder.OldLocation, Is.EqualTo(LocationOne));
+            Assert.That(movementOrder.Creature, Is.EqualTo(MockCreature.Object));
             Assert.That(movementOrder.NewLocation.MinX, Is.InRange(-999 - Epsilon, -999 + Epsilon));
             Assert.That(movementOrder.NewLocation.MaxX, Is.InRange(-999 - Epsilon, -999 + Epsilon));
             Assert.That(movementOrder.NewLocation.MinY, Is.InRange(1 - Epsilon, 1 + Epsilon));
@@ -134,7 +134,7 @@ namespace SyntheticLife.Core.LifeForm.Test
             // Assert
             MockMap.Verify(map => map.Query(LocationOne), Times.Once);
 
-            Assert.That(movementOrder.OldLocation, Is.EqualTo(LocationOne));
+            Assert.That(movementOrder.Creature, Is.EqualTo(MockCreature.Object));
             Assert.That(movementOrder.NewLocation.MinX, Is.InRange(0 - Epsilon, 0 + Epsilon));
             Assert.That(movementOrder.NewLocation.MaxX, Is.InRange(0 - Epsilon, 0 + Epsilon));
             Assert.That(movementOrder.NewLocation.MinY, Is.InRange(1 - Epsilon, 1 + Epsilon));
@@ -160,7 +160,7 @@ namespace SyntheticLife.Core.LifeForm.Test
 
             // Assert
             MockMap.Verify(map => map.Query(searchArea), Times.Once);
-            Assert.That(movementOrder.OldLocation, Is.EqualTo(LocationOne));
+            Assert.That(movementOrder.Creature, Is.EqualTo(MockCreature.Object));
             Assert.That(movementOrder.NewLocation.MinX, Is.InRange(0 - Epsilon, 1 + Epsilon));
             Assert.That(movementOrder.NewLocation.MaxX, Is.InRange(0 - Epsilon, 19 + Epsilon));
             Assert.That(movementOrder.NewLocation.MinY, Is.InRange(1 - Epsilon, 1 + Epsilon));
@@ -182,7 +182,7 @@ namespace SyntheticLife.Core.LifeForm.Test
                 MockMap.Object);
 
             // Assert
-            Assert.That(movementOrder.OldLocation, Is.EqualTo(LocationOne));
+            Assert.That(movementOrder.Creature, Is.EqualTo(MockCreature.Object));
             Assert.That(movementOrder.NewLocation, Is.EqualTo(LocationThree));
         }
 
@@ -198,7 +198,7 @@ namespace SyntheticLife.Core.LifeForm.Test
                 MockMap.Object);
 
             // Assert
-            Assert.That(movementOrder.OldLocation, Is.EqualTo(LocationOne));
+            Assert.That(movementOrder.Creature, Is.EqualTo(MockCreature.Object));
             Assert.That(movementOrder.NewLocation, Is.EqualTo(LocationTwo));
         }
 
@@ -215,7 +215,7 @@ namespace SyntheticLife.Core.LifeForm.Test
                 MockMap.Object);
 
             // Assert
-            Assert.That(movementOrder.OldLocation, Is.EqualTo(LocationOne));
+            Assert.That(movementOrder.Creature, Is.EqualTo(MockCreature.Object));
             Assert.That(movementOrder.NewLocation.MinX, Is.InRange(2.414 - Epsilon, 2.414 + Epsilon));
             Assert.That(movementOrder.NewLocation.MaxX, Is.InRange(2.414 - Epsilon, 2.414 + Epsilon));
             Assert.That(movementOrder.NewLocation.MinY, Is.InRange(2.414 - Epsilon, 2.414 + Epsilon));
