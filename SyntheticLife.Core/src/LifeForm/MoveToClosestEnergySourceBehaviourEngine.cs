@@ -28,12 +28,12 @@ namespace SyntheticLife.Core.LifeForm
             {
                 var randomLocation = creature.Location.TranslateRandomDirection(RandomGenirator, creature.Species.MovementSpeed);
                 return new MovementOrder(
-                    creature.Location,
+                    creature,
                     randomLocation.TranslateToInsideEnvelope(entityMap.Bounds));
             }
 
             return new MovementOrder(
-                creature.Location,
+                creature,
                 creature.Location.TranslateTo(closestEntity.Location, creature.Species.MovementSpeed));
         }
     }
