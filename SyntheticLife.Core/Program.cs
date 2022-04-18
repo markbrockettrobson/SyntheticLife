@@ -12,10 +12,10 @@ var minimumOffspringCost = 20 * movementSpeed;
 var maxFoodSize = harvestRate * 1.5;
 var startingEnergy = sartingPopulation * movementSpeed;
 var energyPerYear = sartingPopulation * movementSpeed;
-var searchAreaSize = 100;
+var searchAreaSize = 10;
 var simulationLength = 1000;
 
-var mapBounds = new Envelope(0, searchAreaSize * 10, 0, searchAreaSize * 10);
+var mapBounds = new Envelope(0, searchAreaSize * 100, 0, searchAreaSize * 100);
 
 Random random = new (0);
 var map = new EntityMap(mapBounds);
@@ -23,16 +23,13 @@ var behaviourEngine = new MoveToClosestEnergySourceBehaviourEngine(random, searc
 var consumptionEngine = new ConsumeLargestConsumptionEngine();
 var offspringCreationEngine = new OffspringCreationEngine();
 
-var startingPopulation = new PopulationGenerator(random, movementSpeed, harvestRate, minimumOffspringCost).CreateCreatures(sartingPopulation, map.Bounds);
-foreach (var creature in startingPopulation)
+foreach (var creature in new PopulationGenerator(random, movementSpeed, harvestRate, minimumOffspringCost).CreateCreatures(sartingPopulation, map.Bounds))
 {
     map.AddEntity(creature);
 }
 
 var energyDistributor = new RandomEnergyDistributor(random, maxFoodSize);
-var startingEnergySources = energyDistributor.CreateEnergySources(map, startingEnergy);
-
-foreach (var energySource in startingEnergySources)
+foreach (var energySource in energyDistributor.CreateEnergySources(map, startingEnergy))
 {
     map.AddEntity(energySource);
 }
@@ -40,7 +37,7 @@ foreach (var energySource in startingEnergySources)
 var day = 0;
 while (day < simulationLength)
 {
-    Console.WriteLine(string.Format("Year {0}", day));
+    Console.WriteLine(string.Format("Day {0}", day));
     var startOfYearEntites = map.MapEntities;
     var startOfYearCreatures = startOfYearEntites
         .Where(entity => typeof(ICreature)
