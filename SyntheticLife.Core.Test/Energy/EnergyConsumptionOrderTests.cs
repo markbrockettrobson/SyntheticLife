@@ -2,6 +2,7 @@
 using Moq;
 using NUnit.Framework;
 using SyntheticLife.Core.LifeForm;
+using SyntheticLife.Core.Map;
 
 namespace SyntheticLife.Core.Energy.Test
 {
@@ -10,12 +11,16 @@ namespace SyntheticLife.Core.Energy.Test
     {
         public Mock<ICreature> MockConsumingEntity = new ();
         public Mock<IEnergySource> MockConsumedEntity = new ();
+        public Mock<IEntityMap> MockMap = new ();
 
         [SetUp]
         public void SetUp()
         {
             MockConsumingEntity = new ();
+            MockConsumingEntity.SetupProperty(entity => entity.Energy, 100);
             MockConsumedEntity = new ();
+            MockConsumedEntity.SetupProperty(entity => entity.Energy, 100);
+            MockMap = new ();
         }
 
         [Test]
@@ -75,6 +80,65 @@ namespace SyntheticLife.Core.Energy.Test
                     MockConsumingEntity.Object,
                     MockConsumedEntity.Object,
                     energy));
+        }
+
+        [Test]
+        public void ExecuteOrderInsufficientEnergy()
+        {
+            // Arrange
+            var energyConsumptionOrder = new EnergyConsumptionOrder(
+                MockConsumingEntity.Object,
+                MockConsumedEntity.Object,
+                10000);
+            // Act
+            // Assert
+            Assert.Throws<InvalidOperationException>(
+                () => energyConsumptionOrder.ExecuteOrder(MockMap.Object));
+        }
+
+        [Test]
+        public void ExecuteOrderConsumingEntityEnergyUpdated()
+        {
+            // Arrange
+            var energyConsumptionOrder = new EnergyConsumptionOrder(
+                MockConsumingEntity.Object,
+                MockConsumedEntity.Object,
+                10);
+            // Act
+            energyConsumptionOrder.ExecuteOrder(MockMap.Object);
+            // Assert
+            MockConsumingEntity.VerifySet(entity => entity.Energy = 110);
+        }
+
+        [Test]
+        public void ExecuteOrderConsumedEntityEnergyUpdated()
+        {
+            // Arrange
+            var energyConsumptionOrder = new EnergyConsumptionOrder(
+                MockConsumingEntity.Object,
+                MockConsumedEntity.Object,
+                10);
+            // Act
+            energyConsumptionOrder.ExecuteOrder(MockMap.Object);
+            // Assert
+            MockConsumedEntity.VerifySet(entity => entity.Energy = 90);
+            MockMap.Verify(
+                map => map.RemoveEntity(It.IsAny<IMapEntity>()), Times.Never);
+        }
+
+        [Test]
+        public void ExecuteOrderConsumedEntityRemoved()
+        {
+            // Arrange
+            var energyConsumptionOrder = new EnergyConsumptionOrder(
+                MockConsumingEntity.Object,
+                MockConsumedEntity.Object,
+                100);
+            // Act
+            energyConsumptionOrder.ExecuteOrder(MockMap.Object);
+            // Assert
+            MockMap.Verify(
+                map => map.RemoveEntity(MockConsumedEntity.Object), Times.Once);
         }
     }
 }

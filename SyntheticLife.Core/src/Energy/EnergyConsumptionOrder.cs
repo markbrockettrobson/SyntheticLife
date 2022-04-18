@@ -1,5 +1,6 @@
 ﻿using Ardalis.GuardClauses;
 using SyntheticLife.Core.LifeForm;
+using SyntheticLife.Core.Map;
 
 namespace SyntheticLife.Core.Energy
 {
@@ -19,6 +20,22 @@ namespace SyntheticLife.Core.Energy
             ConsumingEntity = consumingEntity;
             ConsumedEntity = consumedEntity;
             Energy = energy;
+        }
+
+        public void ExecuteOrder(IEntityMap map)
+        {
+            if (ConsumedEntity.Energy < Energy)
+            {
+                throw new InvalidOperationException("Consumed Entity has insufficient energy.");
+            }
+
+            ConsumingEntity.Energy += Energy;
+            ConsumedEntity.Energy -= Energy;
+
+            if (ConsumedEntity.Energy <= 0)
+            {
+                map.RemoveEntity(ConsumedEntity);
+            }
         }
     }
 }
